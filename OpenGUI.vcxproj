@@ -104,10 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\java2\source\repos\OpenGUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\java2\source\repos\OpenGUI\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,7 +130,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="glad.c" />
     <ClCompile Include="OpenGUI.cpp" />
+    <ClCompile Include="src\loader\loader.cpp" />
+    <ClCompile Include="src\main_app\main_app.cpp" />
+    <ClCompile Include="src\storage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OpenGUI.h" />
+    <ClInclude Include="src\general\font_g.h" />
+    <ClInclude Include="src\general\shader_g.h" />
+    <ClInclude Include="src\loader\loader.h" />
+    <ClInclude Include="src\main_app\main_app.h" />
+    <ClInclude Include="src\storage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\loader\loader.fs" />
+    <None Include="src\loader\loader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

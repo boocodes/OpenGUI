@@ -1,6 +1,14 @@
-﻿#include <iostream>
+﻿#include "OpenGUI.h"
 
-int main()
+int main(void)
 {
-    std::cout << "Hello World!\n";
+    // entry point
+    if (loader_flag)
+    {
+        show_loader();
+    }
+    else if (main_app_flag)
+    {
+        show_main_app();
+    }
 }
