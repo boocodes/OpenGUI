@@ -5,6 +5,6 @@ out vec3 color;
 uniform int active_elem;
 void main()
 {
-   gl_Position = vec4(aPos.x, aPos.y - (0.19 * float(active_elem + 1)), aPos.z, 1.0);
+   gl_Position = vec4(aPos.x, aPos.y - (0.19 * float(active_elem )), aPos.z, 1.0);
    color = aCol;
 }

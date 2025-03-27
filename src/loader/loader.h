@@ -2,7 +2,7 @@
 #ifndef LOADER_H
 #define LOADER_H
 
-#include <stb_image.h>
+
 #include <iostream>
 #include <vector>
 #include <map>
@@ -16,7 +16,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include <stb_image.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 

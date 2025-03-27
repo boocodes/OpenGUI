@@ -39,6 +39,12 @@
     <ClCompile Include="src\general\font\font.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\main_app\welcome\welcome_page.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main_app\app\app_page.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\storage.h">
@@ -66,6 +72,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\general\font\font.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main_app\welcome\welcome_page.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main_app\app\app_page.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
