@@ -385,7 +385,7 @@ void show_welcome_page()
 
     while (!glfwWindowShouldClose(window))
     {
-
+        
         processInput(window);
         glClearColor(0.11764705f, 0.12156862f, 0.1333333f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -402,7 +402,7 @@ void show_welcome_page()
         glBindVertexArray(select_menu_active_item_decor_VAO);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-        RenderText(font_shader, "OpenGUI", 25.0f, 599.0f, 0.4f, glm::vec3(0.41568627, 0.4235941, 0.44313725), projection);
+       RenderText(font_shader, "OpenGUI", 25.0f, 599.0f, 0.4f, glm::vec3(0.41568627, 0.4235941, 0.44313725), projection);
 
         RenderText(font_shader, "Projects", 25.0f, 510.0f, 0.4f, glm::vec3(1.0f, 1.0f, 1.0f), projection);
         RenderText(font_shader, "Environment", 25.0f, 450.0f, 0.4f, glm::vec3(1.0f, 1.0f, 1.0f), projection);
@@ -411,6 +411,7 @@ void show_welcome_page()
 
 
         // minimize, extend, close
+        
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glBindTexture(GL_TEXTURE_2D, minimize_icon_texture);
@@ -506,7 +507,8 @@ void processInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
     {
-        std::cout << mouse_x_pos << ", " << mouse_y_pos << std::endl;
+        // window nav bar
+        
     }
 }
 
