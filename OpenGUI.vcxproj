@@ -132,8 +132,9 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="OpenGUI.cpp" />
-    <ClCompile Include="src\general\font\font.cpp" />
+    <ClCompile Include="src\general\object\object.cpp" />
     <ClCompile Include="src\general\shader\shader.cpp" />
+    <ClCompile Include="src\general\utils.cpp" />
     <ClCompile Include="src\loader\loader.cpp" />
     <ClCompile Include="src\loader\loader_buff.cpp" />
     <ClCompile Include="src\main_app\app\app_page.cpp" />
@@ -145,9 +146,10 @@
     <ClInclude Include="include\ft2build.h" />
     <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="OpenGUI.h" />
-    <ClInclude Include="src\general\font\font.h" />
     <ClInclude Include="src\general\font_g.h" />
+    <ClInclude Include="src\general\object\object.h" />
     <ClInclude Include="src\general\shader\shader.h" />
+    <ClInclude Include="src\general\utils.h" />
     <ClInclude Include="src\loader\loader.h" />
     <ClInclude Include="src\main_app\app\app_page.h" />
     <ClInclude Include="src\main_app\main_app.h" />
