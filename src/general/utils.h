@@ -12,7 +12,8 @@ unsigned int load_texture(const char* path);
 GLuint compileShader(GLenum type, const char* source);
 GLuint createShaderProgram(const char* vertexSrc, const char* fragmentSrc);
 
-
+unsigned int made_texture_png(const char* texture_path);
+unsigned int made_texture_jpg(const char* texture_path);
 
 
 #endif

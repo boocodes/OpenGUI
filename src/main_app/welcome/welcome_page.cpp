@@ -1,7 +1,69 @@
 ﻿#include "welcome_page.h"
 
 
+
+
+
+
+
+
+
+bool minimize_icon_hover = false,
+close_icon_hover = false;
+int active_menu_item = 1;
+
 int WIDTH = 773, HEIGHT = 628;
+
+float top_bar_vertices[] = {
+    0.0f, static_cast<float>(HEIGHT), 0.0f,
+    static_cast<float>(WIDTH), static_cast<float>(HEIGHT), 0.0f,
+    static_cast<float>(WIDTH), static_cast<float>(HEIGHT) - 35.0f, 0.0f,
+    0.0f, static_cast<float>(HEIGHT) - 35.0f, 0.0f,
+};
+float left_bar_vertices[] = {
+    0.0f, static_cast<float>(HEIGHT) - 37.0f, 0.0f,
+    220.0f, static_cast<float>(HEIGHT) - 37.0f, 0.0f,
+    220.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 0.0f,
+};
+float minimize_icon_vertices[] = {
+    676.0f, 619.0f, 0.0f,   1.0f, 1.0f,
+    696.0f, 619.0f, 0.0f,   1.0f, 0.0f,
+    696.0f, 605.0f, 0.0f,   0.0f, 0.0f,
+    676.0f, 605.0f, 0.0f,   0.0f, 1.0f,
+};
+float under_minimize_icon_box_vertices[] = {
+    668.0f, static_cast<float>(HEIGHT), 0.0f,
+    703.0f, static_cast<float>(HEIGHT), 0.0f,
+    703.0f, static_cast<float>(HEIGHT) - 35.0f, 0.0f,
+    668.0f, static_cast<float>(HEIGHT) - 35.0f, 0.0f,
+};
+
+float close_icon_vertices[] = {
+    733.0f, 621.0f, 0.0f,   1.0f, 1.0f,
+    752.0f, 621.0f, 0.0f,   1.0f, 0.0f,
+    752.0f, 603.0f, 0.0f,   0.0f, 0.0f,
+    733.0f, 603.0f, 0.0f,   0.0f, 1.0f,
+};
+float under_close_icon_box_vertices[] = {
+    725.0f, static_cast<float>(HEIGHT), 0.0f,
+    760.0f, static_cast<float>(HEIGHT), 0.0f,
+    760.0f, static_cast<float>(HEIGHT) - 35.0f, 0.0f,
+    725.0f, static_cast<float>(HEIGHT) - 35.0f, 0.0f,
+};
+
+float under_active_menu_item_vertices[] = {
+    10.0f, 540.0f, 0.0f,
+    200.0f, 540.0f, 0.0f,
+    200.0f, 495.0f, 0.0f,
+    10.0f, 495.0f, 0.0f,
+};
+
+
+
+
+
+
 
 void show_welcome_page()
 {
@@ -32,72 +94,209 @@ void show_welcome_page()
         return;
     }
 
+    // FONT 
+    
+    Font font("assets/Roboto-Medium.ttf", WIDTH, HEIGHT);
 
-    float box_vertices[] = {
-        50.0f, 50.0f, 0.0f,      1.0f, 1.0f, 
-        50.0f, 500.0f, 0.0f,     1.0f, 0.0f, 
-        500.0f, 500.0f, 0.0f,    0.0f, 0.0f,
-        500.0f, 50.0f, 0.0f,     0.0f, 1.0f,
-        
-    };
+    font.init();
+    
 
-    unsigned int box_VAO, box_VBO;
-    glGenVertexArrays(1, &box_VAO);
-    glGenBuffers(1, &box_VBO);
+    
+    // FONT
 
-    glBindVertexArray(box_VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, box_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(box_vertices), box_vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    unsigned int top_bar_VAO, top_bar_VBO;
+    glGenVertexArrays(1, &top_bar_VAO);
+    glGenBuffers(1, &top_bar_VBO);
+
+    glBindVertexArray(top_bar_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, top_bar_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(top_bar_vertices), top_bar_vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+
+    unsigned int left_bar_VAO, left_bar_VBO;
+    glGenVertexArrays(1, &left_bar_VAO);
+    glGenBuffers(1, &left_bar_VBO);
+
+    glBindVertexArray(left_bar_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, left_bar_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(left_bar_vertices), left_bar_vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+    glEnableVertexAttribArray(0);
+
+
+    unsigned int minimize_icon_VAO, minimize_icon_VBO;
+    unsigned int minimize_icon_texture = made_texture_png("assets/minimize.png");
+
+    glGenVertexArrays(1, &minimize_icon_VAO);
+    glGenBuffers(1, &minimize_icon_VBO);
+
+    glBindVertexArray(minimize_icon_VAO);   
+    glBindBuffer(GL_ARRAY_BUFFER, minimize_icon_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(minimize_icon_vertices), minimize_icon_vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    unsigned int box_texture;
+    unsigned int close_icon_VAO, close_icon_VBO;
+    unsigned int close_icon_texture = made_texture_png("assets/close.png");
+    
+    glGenVertexArrays(1, &close_icon_VAO);
+    glGenBuffers(1, &close_icon_VBO);
 
-    glGenTextures(1, &box_texture);
-    glBindTexture(GL_TEXTURE_2D, box_texture);
+    glBindVertexArray(close_icon_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, close_icon_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(close_icon_vertices), close_icon_vertices, GL_STATIC_DRAW);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
+    glEnableVertexAttribArray(0);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(1);
+    
+    unsigned int under_minimize_box_VAO, under_minimize_box_VBO;
+    glGenVertexArrays(1, &under_minimize_box_VAO);
+    glGenBuffers(1, &under_minimize_box_VBO);
 
-    unsigned char* data = stbi_load("assets/minimize.png", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
+    glBindVertexArray(under_minimize_box_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, under_minimize_box_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(under_minimize_icon_box_vertices), under_minimize_icon_box_vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+    glEnableVertexAttribArray(0);
 
 
-    Shader plain_shader("src/main_app/shaders/plain.vs", "src/main_app/shaders/plain.fs");
-    Shader texture_shader("src/main_app/shaders/texture.vs", "src/main_app/shaders/texture.fs");
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WIDTH), static_cast<float>(HEIGHT), 0.0f, -1.0f, 1.0f);
+    unsigned int under_close_box_VAO, under_close_box_VBO;
+    glGenVertexArrays(1, &under_close_box_VAO);
+    glGenBuffers(1, &under_close_box_VBO);
+
+    glBindVertexArray(under_close_box_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, under_close_box_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(under_close_icon_box_vertices), under_close_icon_box_vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+    glEnableVertexAttribArray(0);
+
+
+    unsigned int under_active_menu_item_VAO, under_active_menu_item_VBO;
+    glGenVertexArrays(1, &under_active_menu_item_VAO);
+    glGenBuffers(1, &under_active_menu_item_VBO);
+
+    glBindVertexArray(under_active_menu_item_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, under_active_menu_item_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(under_active_menu_item_vertices), under_active_menu_item_vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+    glEnableVertexAttribArray(0);
+
+
+
+    
+    Shader plain("src/main_app/shaders/plain.vs", "src/main_app/shaders/plain.fs");
+
+    glm::mat4 projection = glm::ortho(0.0f, (float)WIDTH, 0.0f, (float)HEIGHT, -1.0f, 1.0f);
+
+
+    Shader texture("src/main_app/shaders/texture.vs", "src/main_app/shaders/texture.fs");
+
+
+    Shader static_variable("src/main_app/shaders/static_variable.vs", "src/main_app/shaders/static_variable.fs");
+    
 
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
         glClearColor(0.11764705f, 0.12156862f, 0.1333333f, 1.0f);
-
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // top and left static bar
+        plain.use();
+        plain.setMat4("projection", projection);
+        plain.setVec3("color", glm::vec3(0.16862745098039217, 0.17647058823529413, 0.18823529411764706));
+
+        glBindVertexArray(top_bar_VAO);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        glBindVertexArray(left_bar_VAO);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        // ------
+
+        // hover minimize and close boxes
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        texture_shader.use();
-        texture_shader.setMat4("projection", projection);
-        glBindVertexArray(box_VAO);
-        glBindTexture(GL_TEXTURE_2D, box_texture);
+        plain.use();
+        plain.setMat4("projection", projection);
+        
+        if (minimize_icon_hover)
+        {
+            plain.setVec3("color", glm::vec3(0.09411764705882353, 0.3764705882352941, 0.796078431372549));
+            glBindVertexArray(under_minimize_box_VAO);
+            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        }
+        if (close_icon_hover)
+        {
+            plain.setVec3("color", glm::vec3(0.09411764705882353, 0.3764705882352941, 0.796078431372549));
+            glBindVertexArray(under_close_box_VAO);
+            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        }
+        // -------
+       
+
+        // minimize and close buttons
+        texture.use();
+        texture.setMat4("projection", projection);
+
+        glBindTexture(GL_TEXTURE_2D, minimize_icon_texture);
+        glBindVertexArray(minimize_icon_VAO);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+        glBindTexture(GL_TEXTURE_2D, close_icon_texture);
+        glBindVertexArray(close_icon_VAO);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        // ------
+        
+        // active menu items box
+        static_variable.use();
+        glBindVertexArray(under_active_menu_item_VAO);
+        static_variable.setFloat("translate_x", 1.0f);
+        
+        static_variable.setMat4("projection", projection);
+        static_variable.setVec3("color", glm::vec3(0.09411764705882353, 0.3764705882352941, 0.796078431372549));
+        if (active_menu_item == 1)
+        {
+            static_variable.setFloat("translate_y", 0.0f);
+        }
+        else if (active_menu_item == 2)
+        {
+            static_variable.setFloat("translate_y", 60.0f);
+        }
+        else if (active_menu_item == 3)
+        {
+            static_variable.setFloat("translate_y", 120.0f);
+        }
+        else if (active_menu_item == 4)
+        {
+            static_variable.setFloat("translate_y", 180.0f);
+        }
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    
+        font.set_color(glm::vec3(0.34509803921568627, 0.34901960784313724, 0.3568627450980392));
+        font.set_scale(0.35);
+        font.RenderText("OpenGUI v0.1", 18.0f, 605.0f);
+
+
+
+        font.set_color(glm::vec3(1.0f, 1.0f, 1.0f));
+        font.set_scale(0.4);
+        font.RenderText("Projects", 25.0f, 510.0f);
+        font.RenderText("Environment", 25.0f, 450.0f);
+        font.RenderText("Addons", 25.0f, 390.0f);
+        font.RenderText("Documentation", 25.0f, 330.0f);
+
 
 
         glfwSwapBuffers(window);
@@ -108,68 +307,101 @@ void show_welcome_page()
     return;
 }
 
-/*
 
-void RenderText(Shader& shader, std::string text, float x, float y, float scale, glm::vec3 color, glm::mat4  projection)
-{
-    shader.use();
-    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
-    glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(text_VAO);
-
-    std::string::const_iterator c;
-    for (c = text.begin(); c != text.end(); c++)
-    {
-        CharacterStruct ch = Characters_list[*c];
-
-        float xpos = x + ch.Bearing.x * scale;
-        float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
-
-        float w = ch.Size.x * scale;
-        float h = ch.Size.y * scale;
-
-        float vertices[6][4] = {
-            { xpos,     ypos + h,   0.0f, 0.0f },
-            { xpos,     ypos,       0.0f, 1.0f },
-            { xpos + w, ypos,       1.0f, 1.0f },
-
-            { xpos,     ypos + h,   0.0f, 0.0f },
-            { xpos + w, ypos,       1.0f, 1.0f },
-            { xpos + w, ypos + h,   1.0f, 0.0f }
-        };
-
-        glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-
-        glBindBuffer(GL_ARRAY_BUFFER, text_VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        x += (ch.Advance >> 6) * scale;
-    glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_BLEND);
-    glLoadIdentity();
-}*/
 
 
 void processInput(GLFWwindow* window)
 {
     double mouse_x_pos, mouse_y_pos;
     glfwGetCursorPos(window, &mouse_x_pos, &mouse_y_pos);
+
+    // top nav bar elem hover
+    // minimize 
+    if (
+        (mouse_x_pos >= under_minimize_icon_box_vertices[0] && mouse_x_pos <= under_minimize_icon_box_vertices[3] && mouse_x_pos <= under_minimize_icon_box_vertices[6] && mouse_x_pos >= under_minimize_icon_box_vertices[9])
+        &&
+        (HEIGHT - mouse_y_pos <= under_minimize_icon_box_vertices[1] && HEIGHT - mouse_y_pos <= under_minimize_icon_box_vertices[4] && HEIGHT - mouse_y_pos >= under_minimize_icon_box_vertices[7] && HEIGHT - mouse_y_pos >= under_minimize_icon_box_vertices[11])
+        )
+    {
+        minimize_icon_hover = true;
+    }
+    else
+    {
+        minimize_icon_hover = false;
+    }
+
+    // close
+
+    if (
+        (mouse_x_pos >= under_close_icon_box_vertices[0] && mouse_x_pos <= under_close_icon_box_vertices[3] && mouse_x_pos <= under_close_icon_box_vertices[6] && mouse_x_pos >= under_close_icon_box_vertices[9])
+        &&
+        (HEIGHT - mouse_y_pos <= under_close_icon_box_vertices[1] && HEIGHT - mouse_y_pos <= under_close_icon_box_vertices[4] && HEIGHT - mouse_y_pos >= under_close_icon_box_vertices[7] && HEIGHT - mouse_y_pos >= under_close_icon_box_vertices[11])
+        )
+    {
+        close_icon_hover = true;
+    }
+    else
+    {
+        close_icon_hover = false;
+    }
+    
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
     {
-        // window nav bar
+        // close button
+        if (
+            (mouse_x_pos >= under_close_icon_box_vertices[0] && mouse_x_pos <= under_close_icon_box_vertices[3] && mouse_x_pos <= under_close_icon_box_vertices[6] && mouse_x_pos >= under_close_icon_box_vertices[9])
+            &&
+            (HEIGHT - mouse_y_pos <= under_close_icon_box_vertices[1] && HEIGHT - mouse_y_pos <= under_close_icon_box_vertices[4] && HEIGHT - mouse_y_pos >= under_close_icon_box_vertices[7] && HEIGHT - mouse_y_pos >= under_close_icon_box_vertices[11])
+            )
+        {
+            glfwTerminate();
+            exit(0);
+        }
+        // minimize button
+        if (
+            (mouse_x_pos >= under_minimize_icon_box_vertices[0] && mouse_x_pos <= under_minimize_icon_box_vertices[3] && mouse_x_pos <= under_minimize_icon_box_vertices[6] && mouse_x_pos >= under_minimize_icon_box_vertices[9])
+            &&
+            (HEIGHT - mouse_y_pos <= under_minimize_icon_box_vertices[1] && HEIGHT - mouse_y_pos <= under_minimize_icon_box_vertices[4] && HEIGHT - mouse_y_pos >= under_minimize_icon_box_vertices[7] && HEIGHT - mouse_y_pos >= under_minimize_icon_box_vertices[11])
+            )
+        {
+            glfwIconifyWindow(window);
+        }
 
+        // menu items
+        if (
+            (mouse_x_pos >= under_active_menu_item_vertices[0] && mouse_x_pos <= under_active_menu_item_vertices[3] && mouse_x_pos <= under_active_menu_item_vertices[6] && mouse_x_pos >= under_active_menu_item_vertices[9])
+            &&
+            (HEIGHT - mouse_y_pos <= under_active_menu_item_vertices[1] && HEIGHT - mouse_y_pos <= under_active_menu_item_vertices[4] && HEIGHT - mouse_y_pos >= under_active_menu_item_vertices[7] && HEIGHT - mouse_y_pos >= under_active_menu_item_vertices[11])
+            )
+        {
+            active_menu_item = 1;
+        }
+        if (
+            (mouse_x_pos >= under_active_menu_item_vertices[0] && mouse_x_pos <= under_active_menu_item_vertices[3] && mouse_x_pos <= under_active_menu_item_vertices[6] && mouse_x_pos >= under_active_menu_item_vertices[9])
+            &&
+            (HEIGHT - mouse_y_pos <= under_active_menu_item_vertices[1] - 60 && HEIGHT - mouse_y_pos <= under_active_menu_item_vertices[4] - 60 && HEIGHT - mouse_y_pos >= under_active_menu_item_vertices[7] - 60 && HEIGHT - mouse_y_pos >= under_active_menu_item_vertices[11] - 60)
+            )
+        {
+            active_menu_item = 2;
+        }
+        if (
+            (mouse_x_pos >= under_active_menu_item_vertices[0] && mouse_x_pos <= under_active_menu_item_vertices[3] && mouse_x_pos <= under_active_menu_item_vertices[6] && mouse_x_pos >= under_active_menu_item_vertices[9])
+            &&
+            (HEIGHT - mouse_y_pos <= under_active_menu_item_vertices[1] - 120 && HEIGHT - mouse_y_pos <= under_active_menu_item_vertices[4] - 120 && HEIGHT - mouse_y_pos >= under_active_menu_item_vertices[7] - 120 && HEIGHT - mouse_y_pos >= under_active_menu_item_vertices[11] - 120)
+            )
+        {
+            active_menu_item = 3;
+        }
+        if (
+            (mouse_x_pos >= under_active_menu_item_vertices[0] && mouse_x_pos <= under_active_menu_item_vertices[3] && mouse_x_pos <= under_active_menu_item_vertices[6] && mouse_x_pos >= under_active_menu_item_vertices[9])
+            &&
+            (HEIGHT - mouse_y_pos <= under_active_menu_item_vertices[1] - 180 && HEIGHT - mouse_y_pos <= under_active_menu_item_vertices[4] - 180 && HEIGHT - mouse_y_pos >= under_active_menu_item_vertices[7] - 180 && HEIGHT - mouse_y_pos >= under_active_menu_item_vertices[11] - 180)
+            )
+        {
+            active_menu_item = 4;
+        }
     }
 }
 
@@ -177,3 +409,4 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
+
