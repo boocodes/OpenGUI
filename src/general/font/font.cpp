@@ -11,6 +11,11 @@ Font::Font(const char* font_name, int SCR_WIDTH, int SCR_HEIGHT)
     this->font_projection = glm::ortho(0.0f, static_cast<float>(SCR_WIDTH), 0.0f, static_cast<float>(SCR_HEIGHT));
 }
 
+float Font::get_scale()
+{
+    return this->scale;
+}
+
 void Font::init()
 {
 	Shader font_shader("src/main_app/shaders/font.vs", "src/main_app/shaders/font.fs");

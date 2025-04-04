@@ -16,6 +16,8 @@
 #include "../../general/shader/shader.h"
 #include "../../general/utils.h"
 #include "../../general/font/font.h"
+#include "./projects_subpage/projects_subpage.h"
+
 
 #include <ft2build.h>
 #include FT_FREETYPE_H

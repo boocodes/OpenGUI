@@ -1,13 +1,5 @@
 ﻿#include "welcome_page.h"
 
-
-
-
-
-
-
-
-
 bool minimize_icon_hover = false,
 close_icon_hover = false;
 int active_menu_item = 1;
@@ -100,9 +92,10 @@ void show_welcome_page()
 
     font.init();
     
-
-    
     // FONT
+
+  
+
 
     unsigned int top_bar_VAO, top_bar_VBO;
     glGenVertexArrays(1, &top_bar_VAO);
@@ -207,6 +200,9 @@ void show_welcome_page()
     Shader static_variable("src/main_app/shaders/static_variable.vs", "src/main_app/shaders/static_variable.fs");
     
 
+    Projects_subpage projects_subpage(WIDTH, HEIGHT);
+    
+
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
@@ -296,6 +292,23 @@ void show_welcome_page()
         font.RenderText("Environment", 25.0f, 450.0f);
         font.RenderText("Addons", 25.0f, 390.0f);
         font.RenderText("Documentation", 25.0f, 330.0f);
+
+        if (active_menu_item == 1)
+        {
+            projects_subpage.show_project_subpage();
+        }
+        else if (active_menu_item == 2)
+        {
+
+        }
+        else if (active_menu_item == 3)
+        {
+
+        }
+        else if (active_menu_item == 4)
+        {
+
+        }
 
 
 

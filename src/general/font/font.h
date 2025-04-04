@@ -35,6 +35,7 @@ private:
     glm::mat4 font_projection;
     std::vector<Shader> shader_list;
 public:
+    float get_scale();
     void set_color(glm::vec3 color_vec);
     void set_scale(float scale_size);
     Font(const char* font_name, int SCR_WIDTH, int SCR_HEIGHT);
